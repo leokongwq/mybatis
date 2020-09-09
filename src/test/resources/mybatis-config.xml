@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="3000"/>
+        <!-- 是否使用插入数据后自增主键的值，需要配合keyProperty使用 -->
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+    </settings>
+
+    <typeHandlers>
+        <typeHandler jdbcType="VARCHAR" javaType="string" handler="com.leokongwq.mybatis.MyStringHandler"/>
+    </typeHandlers>
+
+    <plugins>
+        <plugin interceptor="com.leokongwq.mybatis.ExamplePlugin">
+            <property name="name" value="ExamplePlugin"/>
+        </plugin>
+        <plugin interceptor="com.leokongwq.mybatis.MyPlugin">
+            <property name="order" value="1"/>
+        </plugin>
+        <plugin interceptor="com.leokongwq.mybatis.ShardingPlugin">
+
+        </plugin>
+    </plugins>
+
+    <!-- 定义数据库的信息，默认使用development数据库构建环境 -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+                <property name="username" value="root"/>
+                <property name="password" value="1q2w3e4r"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!--        <package name="com.leokongwq.mybatis.mapper"/>-->
+        <mapper resource="mapper/RoleMapper.xml"/>
+    </mappers>
+
+</configuration>
